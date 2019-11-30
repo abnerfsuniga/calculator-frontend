@@ -1,11 +1,13 @@
 #include <stdio.h>
 
 struct ll {
-    int data;
+    struct ast *tree;
     struct ll *next;
 };
 
 typedef struct ll * llnode;
+
+struct ll * tree_list;
 
 llnode create_node();
 llnode add_node();

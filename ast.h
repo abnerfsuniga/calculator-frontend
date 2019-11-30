@@ -2,8 +2,6 @@
 
 struct ast *AST;
 
-void yyerror(char *s, ...);
-
 enum nodetype {
   T_ROOT,
   T_STATEMENT,

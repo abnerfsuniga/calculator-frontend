@@ -482,10 +482,24 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "calculator.l"
 #line 3 "calculator.l"
-# include "calculator.h"
-# include "calculator.tab.h"
-#line 488 "lex.yy.c"
-#line 489 "lex.yy.c"
+#include "calculator.h"
+#include "ast.h"
+#include "calculator.tab.h"
+int yycolumn = 1;
+#define YY_USER_ACTION \
+    yylloc.first_line = yylloc.last_line; \
+    yylloc.first_column = yylloc.last_column; \
+    for(int i = 0; yytext[i] != '\0'; i++) { \
+        if(yytext[i] == '\n') { \
+            yylloc.last_line++; \
+            yylloc.last_column = 0; \
+        } \
+        else { \
+            yylloc.last_column++; \
+        } \
+    }
+#line 502 "lex.yy.c"
+#line 503 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -702,9 +716,9 @@ YY_DECL
 		}
 
 	{
-#line 8 "calculator.l"
+#line 22 "calculator.l"
 
-#line 708 "lex.yy.c"
+#line 722 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -773,86 +787,86 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 9 "calculator.l"
+#line 23 "calculator.l"
 ;
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 10 "calculator.l"
+#line 24 "calculator.l"
 { return EOL; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 12 "calculator.l"
+#line 26 "calculator.l"
 { yylval.d = atof(yytext); return FLOAT; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 13 "calculator.l"
+#line 27 "calculator.l"
 { yylval.d = atof(yytext); return INTEGER; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 15 "calculator.l"
+#line 29 "calculator.l"
 { return PRINT; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 17 "calculator.l"
-{ yylval.name = yytext; return VARIABLE; }
+#line 31 "calculator.l"
+{ yylval.name = strdup(yytext); return VARIABLE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 19 "calculator.l"
+#line 33 "calculator.l"
 { return ADD; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 20 "calculator.l"
+#line 34 "calculator.l"
 { return SUB; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 21 "calculator.l"
+#line 35 "calculator.l"
 { return MUL; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 22 "calculator.l"
+#line 36 "calculator.l"
 { return DIV; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 23 "calculator.l"
+#line 37 "calculator.l"
 { return EXP; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 24 "calculator.l"
+#line 38 "calculator.l"
 { return EQUAL; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 25 "calculator.l"
+#line 39 "calculator.l"
 { return RIGHT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 26 "calculator.l"
+#line 40 "calculator.l"
 { return LEFT; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 28 "calculator.l"
+#line 42 "calculator.l"
 { printf("UNKNOWN CHAR %c\n", *yytext); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 29 "calculator.l"
+#line 43 "calculator.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 856 "lex.yy.c"
+#line 870 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1869,5 +1883,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 29 "calculator.l"
+#line 43 "calculator.l"
 

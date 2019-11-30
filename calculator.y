@@ -1,16 +1,18 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include "ast.h"
 #include "calculator.h"
+#include "ll.h"
 %}
-
+%locations
 %union {
   struct ast *a;
 	char *name;
   double d;
 }
 
-%type <a> exp factor exponential term statement list
+%type <a> exp factor exponential term statement
 %token <d> INTEGER FLOAT
 %token <name> VARIABLE
 
@@ -22,13 +24,13 @@
 %start calculation
 
 %%
-calculation: list { AST = newast(T_ROOT, $1, NULL); } 
+calculation: list           {  } 
 
-list: statement             { $$ = newast(T_STATEMENT, $1, NULL); }
-| list statement            { $$ = newast(T_STATEMENT, $1, $2); }
+list: statement             { tree_list = add_node(tree_list, $1); }
+| list statement            { tree_list = add_node(tree_list, $2); }
 
 statement: 
-	VARIABLE EQUAL exp EOL    { $$ = newast(T_ASSIGNMENT, $3, NULL); }
+	VARIABLE EQUAL exp EOL    { $$ = newast(T_ASSIGNMENT, newvar($1), $3); }
 | PRINT exp EOL             { $$ = newast(T_PRINT, $2, NULL); }
 |	exp EOL                   { $$ = newast(T_EXPRESSION, $1, NULL); }
 ;

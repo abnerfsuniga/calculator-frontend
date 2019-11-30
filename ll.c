@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ll.h"
+#include "ast.h"
 
 llnode create_node() {
     llnode temp; 
@@ -9,10 +10,10 @@ llnode create_node() {
     return temp;
 }
 
-llnode add_node(llnode head, int data) {
+llnode add_node(llnode head, struct ast *tree) {
     llnode temp, p;
     temp = create_node();
-    temp->data = data;
+    temp->tree = tree;
     if (head == NULL) {
         head = temp;
     } else {

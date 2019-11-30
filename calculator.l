@@ -1,7 +1,21 @@
 %option noyywrap nodefault yylineno
 %{
-# include "calculator.h"
-# include "calculator.tab.h"
+#include "calculator.h"
+#include "ast.h"
+#include "calculator.tab.h"
+int yycolumn = 1;
+#define YY_USER_ACTION \
+    yylloc.first_line = yylloc.last_line; \
+    yylloc.first_column = yylloc.last_column; \
+    for(int i = 0; yytext[i] != '\0'; i++) { \
+        if(yytext[i] == '\n') { \
+            yylloc.last_line++; \
+            yylloc.last_column = 0; \
+        } \
+        else { \
+            yylloc.last_column++; \
+        } \
+    }
 %}
 
 
@@ -14,7 +28,7 @@
 
 "print"                     { return PRINT; }
 
-[a-zA-Z_][a-zA-Z0-9]*       { yylval.name = yytext; return VARIABLE; }
+[a-zA-Z_][a-zA-Z0-9]*       { yylval.name = strdup(yytext); return VARIABLE; }
 
 "+"                         { return ADD; }
 "-"                         { return SUB; }
