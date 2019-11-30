@@ -42,4 +42,4 @@ struct ast *newinteger(double d);
 struct ast *newfloat(double d);
 struct ast *newvar(char *name);
 
-void printtree(struct ast *a, int level);
+void printtree(struct ast *a, int level, FILE *file);

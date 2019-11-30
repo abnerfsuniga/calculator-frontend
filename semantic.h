@@ -22,3 +22,5 @@ struct evalexp {
 
 struct evalexp * eval_tree(struct ast *a);
 
+const char * get_type_str(int vartype);
+

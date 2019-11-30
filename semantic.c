@@ -59,6 +59,22 @@ struct symbol * get_symbol(char *sym) {
 	}
 }
 
+void valid_types(struct evalexp * l, struct evalexp * r) {
+	if (l->type == r->type) {
+		return;
+	}
+	char str[150];
+	snprintf(
+		str, 
+		sizeof str, 
+		"ERRO semantico, não é possível realizar operações com tipos diferentes l:%s r:%s",
+		get_type_str(l->type),
+		get_type_str(r->type)
+	);
+	yyerror(str);
+	exit(1);
+}
+
 struct evalexp * eval_tree(struct ast *a) {
     struct symbol *symbol;
 	struct symbol *new_symbol;
@@ -91,11 +107,51 @@ struct evalexp * eval_tree(struct ast *a) {
 				exit(1);
 			}
 			break;
+
+		case T_ADD:
+			l = eval_tree(a->l);
+			r = eval_tree(a->r);
+			valid_types(l, r);
+			ee->type = l->type;
+			ee->value = l->value + r->value;
+			break;
+		case T_SUB:
+			l = eval_tree(a->l);
+			r = eval_tree(a->r);
+			valid_types(l, r);
+			ee->type = l->type;
+			ee->value = l->value - r->value;
+			break;
+		case T_MUL:
+			l = eval_tree(a->l);
+			r = eval_tree(a->r);
+			valid_types(l, r);
+			ee->type = l->type;
+			ee->value = l->value * r->value;
+			break;
+		case T_DIV:
+			l = eval_tree(a->l);
+			r = eval_tree(a->r);
+			valid_types(l, r);
+			ee->type = TYPEFLOAT;
+			ee->value = l->value / r->value;
+			break;
+		case T_EXP:
+			l = eval_tree(a->l);
+			r = eval_tree(a->r);
+			valid_types(l, r);
+			ee->type = TYPEFLOAT;
+			ee->value = pow(l->value,r->value);
+			break;
+		case T_MINUS:
+			l = eval_tree(a->l);
+			ee->type = l->type;
+			ee->value = -l->value;
+			break;
+
 		case T_ASSIGNMENT:
 			new_symbol = getcreate_symbol(((struct var *)a->l)->name);
 			r = eval_tree(a->r);
-
-			// Se a variável não é nova e recebe um tipo diferente gera um erro semantico
 			if ((new_symbol->type != -1) && (new_symbol->type != r->type)) {
 				char str[150];
 				snprintf(
@@ -115,11 +171,15 @@ struct evalexp * eval_tree(struct ast *a) {
 			ee->value = r->value;
 			ee->type = r->type;
 			break;
-
 		case T_EXPRESSION:
+			l = eval_tree(a->l);
+			ee = l;
+			break;
 		case T_PRINT:
 			l = eval_tree(a->l);
 			ee = l;
+			if (ee->type == TYPEINTEGER) printf("%d\n", (int)ee->value);
+			else printf("%f\n", ee->value);
 			break;
 	}
 	return ee;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <unistd.h>
 #include "ast.h"
 #include "calculator.h"
 #include "ll.h"
@@ -8,19 +9,58 @@
 #include "semantic.h"
 
 int main(int argc, char **argv) { 
-	FILE *myfile = fopen("test_cases/3.txt", "r");
-	if (!myfile) {
-		return -1;
+ 	int opt, DEBUG = 0;
+	char *filename, *tree_filename = NULL;
+	while( (opt = getopt(argc, argv, "hi:a:d")) > 0 ) {
+        switch (opt) {
+            case 'h':
+                printf("Comandos:\n-h\tAjuda\n-i\tArquivo de entrada\n-a\tArquivo de saída AST\n");
+                break ;
+            case 'i':
+                filename = optarg;
+                break;
+            case 'a':
+                tree_filename = optarg;
+                break;
+			case 'd':
+                DEBUG = 1;
+                break;
+            default:
+                fprintf(stderr, "Opcao invalida ou faltando argumento: `%c'\n", opt) ;
+                return -1 ;
+        }
+    }
+
+
+	FILE *code_file = fopen(filename, "r");
+	if (!code_file) {
+		printf("ERRO ao abrir o arquivo %s\n", filename);
+		exit(1);
 	}
-	yyin = myfile;
+	yyin = code_file;
 	yyparse();
+
+	if (tree_filename) {
+		FILE *tree_file = fopen(tree_filename, "w");
+		if (!tree_file){
+			printf("ERRO ao abrir o arquivo %s\n", tree_filename);
+			exit(1);
+		}
+		llnode p;
+		p = tree_list;
+		while(p != NULL){
+			printtree(p->tree, 0, tree_file);
+			p = p->next;
+		}
+		fclose(tree_file);
+	}
 
 	llnode p;
 	p = tree_list;
 	while(p != NULL){
 		struct evalexp *ee = eval_tree(p->tree);
-		if (ee) {
-			printf("Value: %f Type: %d\n", ee->value, ee->type);
+		if (DEBUG && ee) {
+			printf("Value: %.2f Type: %s\n", ee->value, get_type_str(ee->type));
 		}
 		p = p->next;
 	}

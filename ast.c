@@ -49,24 +49,24 @@ struct ast *newvar(char *name) {
 	return (struct ast *)a;
 }
 
-void printtree(struct ast *a, int level) {
-	printf("%*s", 8*level, "");
+void printtree(struct ast *a, int level, FILE *file) {
+	fprintf(file, "%*s", 8*level, "");
 	level++;
 
 	if(!a) {
-    printf("NULL\n");
+    fprintf(file, "NULL\n");
     return;
   }
 
 	switch(a->nodetype) {
 		case T_INTEGER:
-      printf("%d\n", (int)((struct numvar *)a)->number);
+      fprintf(file, "%d\n", (int)((struct numvar *)a)->number);
 			return;
     case T_FLOAT:
-			printf("%.2f\n", ((struct numvar *)a)->number);
+			fprintf(file, "%.2f\n", ((struct numvar *)a)->number);
 			return;
 		case T_VAR:
-			printf("%s\n", ((struct var *)a)->name);
+			fprintf(file, "%s\n", ((struct var *)a)->name);
 			return;
 
 		case T_ADD:
@@ -75,20 +75,20 @@ void printtree(struct ast *a, int level) {
 		case T_DIV:
 		case T_EXP:
     case T_ASSIGNMENT:
-      printf("%s\n", get_node_name(a->nodetype));
-			printtree(a->l, level);
-			printtree(a->r, level);
+      fprintf(file, "%s\n", get_node_name(a->nodetype));
+			printtree(a->l, level, file);
+			printtree(a->r, level, file);
 			return;
 
 		case T_MINUS:
     case T_PRINT:
     case T_EXPRESSION:
-		  printf("%s\n", get_node_name(a->nodetype));
-			printtree(a->l, level);
+		  fprintf(file, "%s\n", get_node_name(a->nodetype));
+			printtree(a->l, level, file);
 			return;
 
 	  default: 
-			printf("BAD NODE %c\n", a->nodetype);
+			fprintf(file, "BAD NODE %c\n", a->nodetype);
     	return;
 	}
 }
