@@ -6,7 +6,7 @@
 struct ast *newast(int nodetype, struct ast *l, struct ast *r) {
   struct ast *a = malloc(sizeof(struct ast));
   if(!a) {
-    yyerror("out of space");
+    yyerror("Sem espaço");
     exit(0);
   }
   a->nodetype = nodetype;
@@ -18,7 +18,7 @@ struct ast *newast(int nodetype, struct ast *l, struct ast *r) {
 struct ast *newinteger(double d) {
   struct numvar *a = malloc(sizeof(struct numvar));
   if(!a) {
-    yyerror("out of space");
+    yyerror("Sem espaço");
     exit(0);
   }
   a->nodetype = T_INTEGER;
@@ -29,7 +29,7 @@ struct ast *newinteger(double d) {
 struct ast *newfloat(double d) {
   struct numvar *a = malloc(sizeof(struct numvar));
   if(!a) {
-    yyerror("out of space");
+    yyerror("Sem espaço");
     exit(0);
   }
   a->nodetype = T_FLOAT;
@@ -41,7 +41,7 @@ struct ast *newfloat(double d) {
 struct ast *newvar(char *name) {
 	struct var *a = malloc(sizeof(struct var));
 	if(!a) {
-    yyerror("out of space");
+    yyerror("Sem espaço");
     exit(0);
   }
 	a->nodetype = T_VAR;

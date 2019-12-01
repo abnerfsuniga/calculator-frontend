@@ -6,6 +6,7 @@
 #include "calculator.h"
 #include "ast.h"
 #include "semantic.h"
+#include "calculator.tab.h"
 
 const char * get_type_str(int vartype) {
   switch (vartype) {
@@ -42,7 +43,7 @@ struct symbol * getcreate_symbol(char *sym) {
 
     	if(++sp >= symtab+NHASH) sp = symtab; 
 	}
-	yyerror("symbol table overflow\n");
+	yyerror("Tabela de simbolos overflow\n");
 	abort(); 
 }
 
@@ -182,5 +183,6 @@ struct evalexp * eval_tree(struct ast *a) {
 			else printf("%f\n", ee->value);
 			break;
 	}
+	yylloc.first_column++;
 	return ee;
 }

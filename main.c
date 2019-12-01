@@ -57,8 +57,17 @@ int main(int argc, char **argv) {
 
 	llnode p;
 	p = tree_list;
+
+	// Reset line error tracking 
+	yylloc.first_line = 1; 
 	while(p != NULL){
+
+		// Reset column error tracking
+		yylloc.first_column = 1;
+
 		struct evalexp *ee = eval_tree(p->tree);
+		yylloc.first_line++;
+
 		if (DEBUG && ee) {
 			printf("Value: %.2f Type: %s\n", ee->value, get_type_str(ee->type));
 		}

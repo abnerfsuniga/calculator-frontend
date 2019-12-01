@@ -1,0 +1,11 @@
+T_EXPRESSION
+        +
+                2
+                3
+T_EXPRESSION
+        a
+T_EXPRESSION
+        1
+T_ASSIGNMENT
+        a
+        2

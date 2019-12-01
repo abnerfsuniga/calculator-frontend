@@ -1,0 +1,15 @@
+T_ASSIGNMENT
+        a
+        10
+T_ASSIGNMENT
+        b
+        1.30
+T_ASSIGNMENT
+        a
+        b
+T_EXPRESSION
+        *
+                2
+                3
+T_EXPRESSION
+        1
