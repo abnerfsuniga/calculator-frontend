@@ -6,9 +6,11 @@ T_ASSIGNMENT
                 2
 T_ASSIGNMENT
         b
-        *
-                a
-                9
+        /
+                *
+                        a
+                        9
+                7
 T_ASSIGNMENT
         c
         0

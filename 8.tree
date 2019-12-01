@@ -1,0 +1,35 @@
+T_ASSIGNMENT
+        a
+        +
+                1
+                2
+T_ASSIGNMENT
+        b
+        /
+                2
+                2
+T_ASSIGNMENT
+        c
+        -
+                3
+                3
+T_ASSIGNMENT
+        d
+        *
+                2
+                3
+T_ASSIGNMENT
+        e
+        ^
+                2
+                6
+T_PRINT
+        a
+T_PRINT
+        b
+T_PRINT
+        c
+T_PRINT
+        d
+T_PRINT
+        e
