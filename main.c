@@ -10,11 +10,11 @@
 
 int main(int argc, char **argv) { 
  	int opt, DEBUG = 0;
-	char *filename, *tree_filename = NULL;
+	char *filename = NULL, *tree_filename = NULL;
 	while( (opt = getopt(argc, argv, "hi:a:d")) > 0 ) {
         switch (opt) {
             case 'h':
-                printf("Comandos:\n-h\tAjuda\n-i\tArquivo de entrada\n-a\tArquivo de saída AST\n");
+                printf("Comandos:\n-h\tAjuda\n-i\tArquivo de entrada\n-a\tArquivo de saída AST\n-d\tDebug mode\n");
                 break ;
             case 'i':
                 filename = optarg;
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
 	FILE *code_file = fopen(filename, "r");
 	if (!code_file) {
-		printf("ERRO ao abrir o arquivo %s\n", filename);
+		printf("Não foi possível abrir arquivo contendo código\n");
 		exit(1);
 	}
 	yyin = code_file;

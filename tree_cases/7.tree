@@ -13,10 +13,12 @@ T_ASSIGNMENT
                 7
 T_ASSIGNMENT
         c
-        0
+        0.00
 T_PRINT
         +
                 +
                         b
-                        27
+                        27.00
                 c
+T_EXPRESSION
+        a

@@ -1,4 +1,5 @@
 a = -1 - 2
 b = (a * 9) / 7
-c = 0
-print b + 27 + c
+c = 0.0
+print b + 27.0 + c
+a
