@@ -1,4 +1,4 @@
-# Frontend calculadora
+# Calculator frontend
 
 O objetivo desta tarefa é implementar um frontend. Mais precisamente, o objetivo é implementar as
 três fases de análise e um motor de execução.
